@@ -1,6 +1,6 @@
 function singleton_ssh_agent -d "Keep one instance of ssh-agent"
 
-	set agent $SSH_AGENT_PID
+	set -l agent $SSH_AGENT_PID
 
 	if test -z "$agent"
 		find_ssh_sock
