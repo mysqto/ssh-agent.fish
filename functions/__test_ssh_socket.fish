@@ -1,11 +1,14 @@
 function __test_ssh_socket -d "check if ssh socket valid"
 
-    if test -z (which ssh-add)
+    # `command -q` is a builtin, so it needs no `which` on the system. The old
+    # `test -z (which ssh-add)` degenerated to a bare `test -z` whenever
+    # ssh-add was missing, which returns true only by accident.
+    if not command -q ssh-add
         echo "ssh-add is not available, agent test aborted"
         return 1
     end
 
-    set ssh_auth_sock $SSH_AUTH_SOCK
+    set -l ssh_auth_sock $SSH_AUTH_SOCK
 
     if test -n "$argv[1]"
         set ssh_auth_sock $argv[1]
